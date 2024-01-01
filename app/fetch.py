@@ -12,7 +12,7 @@ def get_date_three_months_ago():
 
     # Calculate the date three months ago
     # For simplicity, we consider 3 months as approximately 90 days
-    months_ago_date = current_date - timedelta(days=90)
+    months_ago_date = current_date - datetime.timedelta(days=90)
 
     # Format the date in 'YYYY-MM-DD' format
     return months_ago_date.strftime('%Y-%m-%d')
