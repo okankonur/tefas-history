@@ -18,10 +18,14 @@ def main():
     fetch_start_time = time.time()
     df = fetch_data() 
     fetch_end_time = time.time()
-
     logging.info(f"fetch took {fetch_end_time - fetch_start_time} seconds")
-    logging.info("database loop statrting...")
+    logging.info(f"tefas dataframe has {len(df)} rows.")
 
+    if df.empty:
+        logging.info("Tefas dataframe is empty. No further action taken.")
+        return
+    
+    logging.info("database loop starting...")
 
     db_start_time = time.time()
     
