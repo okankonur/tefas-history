@@ -1,2 +1,3 @@
 sqlalchemy
 pandas
+tefas_crawler

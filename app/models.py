@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Float, String, Date
+from sqlalchemy import Column, Integer, Float, String, Date, UniqueConstraint
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
@@ -11,7 +11,7 @@ class TefasModel(Base):
     market_cap = Column(Float)
     number_of_shares = Column(Float)
     number_of_investors = Column(Integer)
-    date = Column(Date, unique=True)
+    date = Column(Date)
     tmm = Column(Float)
     repo = Column(Float)
     code = Column(String)
@@ -39,3 +39,5 @@ class TefasModel(Base):
     fund_participation_certificate = Column(Float)
     government_bonds_and_bills_fx = Column(Float)
     private_sector_lease_certificates = Column(Float)
+    # Composite Unique Constraint
+    __table_args__ = (UniqueConstraint('date', 'code', name='_date_code_uc'),)

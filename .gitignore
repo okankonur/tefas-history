@@ -125,3 +125,7 @@ dmypy.json
 *.swp
 *~
 .DS_Store
+
+
+#sqlite database
+*.db

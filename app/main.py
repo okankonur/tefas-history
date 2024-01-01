@@ -2,24 +2,39 @@ from .fetch import fetch_data
 from .database import SessionLocal, init_db
 from .models import TefasModel
 from datetime import datetime
+import logging
+import time
 
 def main():
     
+    # Configure logging
+    logging.basicConfig(level=logging.INFO, handlers=[
+        logging.FileHandler("main.log"),
+        logging.StreamHandler()
+    ])
+
     init_db()
 
+    fetch_start_time = time.time()
     df = fetch_data() 
+    fetch_end_time = time.time()
 
-    db = SessionLocal()
-    try:
-        for index, row in df.iterrows():
-            # Create a new database object
+    logging.info(f"fetch took {fetch_end_time - fetch_start_time} seconds")
+    logging.info("database loop statrting...")
+
+
+    db_start_time = time.time()
+    
+    for index, row in df.iterrows():
+        try:
+            db = SessionLocal()
             db_obj = TefasModel(
                 price=row['price'],
                 title=row['title'],
                 market_cap=row['market_cap'],
                 number_of_shares=row['number_of_shares'],
                 number_of_investors=row['number_of_investors'],
-                date=datetime.strptime(row['date'], '%Y-%m-%d'), 
+                date=row['date'], 
                 tmm=row['tmm'],
                 repo=row['repo'],
                 code=row['code'],
@@ -48,13 +63,23 @@ def main():
                 government_bonds_and_bills_fx=row['government_bonds_and_bills_fx'],
                 private_sector_lease_certificates=row['private_sector_lease_certificates']
             )
+
+            logging.info(f"Saving row to db... date: {row['date']}, code: {row['code']}")
             db.add(db_obj)
-        db.commit()
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        db.rollback()
-    finally:
-        db.close()
+            db.commit()
+        except Exception as e:
+            if 'unique constraint' in str(e).lower():
+                logging.warning(f"Row {index} with date {row['date']} and code {row['code']} already exists. Skipping.")
+            else:
+                logging.error(f"An error occurred with row {index}: {e}")
+            db.rollback()
+        finally:
+            db.close()
+
+    logging.info("--------COMPLETED------------")
+    db_end_time = time.time()
+
+    logging.info(f"db save took {db_end_time - db_start_time} seconds")
 
 if __name__ == "__main__":
     main()
