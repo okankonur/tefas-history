@@ -1,5 +1,6 @@
 # Use an official Python runtime as a parent image
-FROM python:3.8-slim
+# Use bullseye image for raspberry pi /arm64/v8
+FROM python:3.9.18-slim-bullseye  
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
