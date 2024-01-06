@@ -54,10 +54,10 @@ coverage.xml
 *.pot
 
 # Django stuff:
-*.log
+*.log*
 local_settings.py
-db.sqlite3
-db.sqlite3-journal
+database.SessionLocal().sqlite3
+database.SessionLocal().sqlite3-journal
 
 # Flask stuff:
 instance/

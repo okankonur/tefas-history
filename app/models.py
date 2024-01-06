@@ -41,3 +41,14 @@ class TefasModel(Base):
     private_sector_lease_certificates = Column(Float)
     # Composite Unique Constraint
     __table_args__ = (UniqueConstraint('date', 'code', name='_date_code_uc'),)
+
+
+class TefasProfitModel(Base):
+    __tablename__ = 'tbl_tefas_profit'
+    id = Column(Integer, primary_key=True)
+    code = Column(String)
+    date = Column(Date)
+    profit_1_month = Column(Float)
+    profit_3_months = Column(Float)
+    profit_6_months = Column(Float)
+    profit_1_year = Column(Float)

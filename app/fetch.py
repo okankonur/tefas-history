@@ -1,8 +1,7 @@
 from tefas import Crawler
 from datetime import datetime, timedelta
-from .database import SessionLocal, desc
-from .models import TefasModel
-import logging
+from .database import TefasDatabase, desc
+from .logconfig import setup_logger
 
 def get_date_three_months_ago():
     """
@@ -27,16 +26,14 @@ def get_formatted_current_date():
 
 def fetch_data():
 
+    logger = setup_logger(__name__)
+
     tefas_crawler = Crawler()
 
-    db = SessionLocal()
-    latest_date = db.query(TefasModel.date).order_by(desc(TefasModel.date)).first()
-    if latest_date:
-        latest_date_str = latest_date[0].strftime('%Y-%m-%d')
-        logging.info(f"The latest date in the database is: {latest_date_str}")
-    else:
-        logging.warn("No dates found in the table.")
+    database = TefasDatabase()
 
+    latest_date_str = database.get_latest_date_in_db()
+    
     return tefas_crawler.fetch(start=latest_date_str, end=get_formatted_current_date())
 
 
