@@ -2,7 +2,7 @@ from sqlalchemy import create_engine, desc
 from sqlalchemy.orm import sessionmaker
 from .models import Base, TefasModel, TefasProfitModel
 from .logconfig import setup_logger
-from .dateutil import get_nearest_weekday
+from .dateutil import get_nearest_weekday, get_oldest_tefas_api_date
 from datetime import datetime, timedelta
 import pandas as pd
 import time
@@ -65,10 +65,10 @@ class TefasDatabase:
         if latest_date:
             latest_date_str = latest_date[0].strftime('%Y-%m-%d')
             self.logger.info(f"The latest date in the database is: {latest_date_str}")
+            return latest_date_str
         else:
-            self.logger.warn("No dates found in the table.")
-
-        return latest_date_str
+            self.logger.warn("No dates found in the table. Returning 3 months prior to current date")
+            return get_oldest_tefas_api_date().strftime('%Y-%m-%d')
 
     def update_and_save_profit_ratios(self):
 

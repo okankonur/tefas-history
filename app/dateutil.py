@@ -1,5 +1,9 @@
-from datetime import timedelta
+from datetime import datetime, timedelta
 from .logconfig import setup_logger
+
+
+def get_oldest_tefas_api_date():
+    return get_nearest_weekday(datetime.now() - timedelta(days=85))
 
 def get_nearest_weekday(date):
     """
