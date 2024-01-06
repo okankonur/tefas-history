@@ -129,3 +129,5 @@ dmypy.json
 
 #sqlite database
 *.db
+
+email_config.properties

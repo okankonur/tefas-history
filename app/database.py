@@ -4,6 +4,7 @@ from .models import Base, TefasModel, TefasProfitModel
 from .logconfig import setup_logger
 from .dateutil import get_nearest_weekday
 from datetime import datetime, timedelta
+import pandas as pd
 import time
 
 
@@ -19,6 +20,11 @@ class TefasDatabase:
         self.logger = setup_logger(__name__)
         Base.metadata.create_all(bind=self.engine)
         self.logger = setup_logger(__name__)
+
+
+    def read_table(self, table_name):
+        self.logger.info(f"Reading table: {table_name}")
+        return pd.read_sql_table(table_name, self.engine)
 
     def calculate_profit_ratio(self, fund_code, current_date, interval):
         """
@@ -149,7 +155,7 @@ class TefasDatabase:
                         private_sector_lease_certificates=row['private_sector_lease_certificates']
                     )
 
-                    self.logger.info(f"Saving row to database.SessionLocal()... date: {row['date']}, code: {row['code']}")
+                    self.logger.info(f"Saving row to database... date: {row['date']}, code: {row['code']}")
                     session.add(db_obj)
                     session.commit()
                 except Exception as e:
