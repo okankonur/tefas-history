@@ -1,6 +1,4 @@
 sqlalchemy
 pandas
 openpyxl
-smtplib
-email
 tefas_crawler
