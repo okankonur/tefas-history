@@ -10,7 +10,7 @@ def setup_logger(name):
     # Create handlers (console and file handlers)
     console_handler = logging.StreamHandler()
     file_handler = RotatingFileHandler(
-        'main.log', maxBytes=1024*1024*5, backupCount=5
+        'log/main.log', maxBytes=1024*1024*5, backupCount=5
     )
 
     # Create formatters and add them to handlers
