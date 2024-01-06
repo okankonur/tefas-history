@@ -7,10 +7,10 @@ def main():
 
     database = TefasDatabase()
 
-    database.update_and_save_profit_ratios()
-
     df = fetch_data()
     database.update_main_tefas_table(df)
+
+    database.update_and_save_profit_ratios()
 
     send_email("profit_output.xlsx")
 
