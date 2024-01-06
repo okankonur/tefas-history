@@ -19,7 +19,8 @@ def setup_logger(name):
     file_handler.setFormatter(log_format)
 
     # Add handlers to the logger
-    logger.addHandler(console_handler)
-    logger.addHandler(file_handler)
+    if not logger.handlers:
+        logger.addHandler(console_handler)
+        logger.addHandler(file_handler)
 
     return logger
