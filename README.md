@@ -2,6 +2,11 @@
 
 Small project to download tefas (https://fundturkey.com.tr) historical fund data to local database (sqlite3) for potential further analysis.
 
+## Features
+
+- Downloads all fund data to local db table. (tbl_tefas)
+- Calculates profit percentages of these funds over periods (1mo, 3mo, 6mo, 1y) and saves it (tbl_tefas_profit)
+
 ## Usage
 
 `python3 -m app.main`
