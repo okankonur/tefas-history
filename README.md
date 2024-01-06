@@ -27,7 +27,11 @@ The local database is created on the working directory. If you use a docker imag
 docker run --rm -v tefas_db_volume:/db -v $(pwd):/tefas_backup alpine:latest cp /db/tefas.db /tefas_backup/
 ```
 [!NOTE]
-This assumes that you bound your image to a custom volume named `tefas_db_volume` for persistence.
+This assumes that you bound your image to a custom volume named `tefas_db_volume` for persistence like so:
+
+```
+docker run -v tefas_db_volume:/usr/src/tefas --rm tefas-history
+```
 
 ## Email Properties
 
